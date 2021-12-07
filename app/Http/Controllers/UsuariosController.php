@@ -24,10 +24,10 @@ class UsuariosController extends Controller
     {
         $usuario = new Usuario();
 
-        $usuario->nome = $form->nome;
+        $usuario->name = $form->nome;
         $usuario->email = $form->email;
-        $usuario->usuario = $form->usuario;
-        $usuario->senha = Hash::make($form->senha);
+        $usuario->user = $form->usuario;
+        $usuario->password = Hash::make($form->senha);
 
         $usuario->save();
 
@@ -43,7 +43,7 @@ class UsuariosController extends Controller
             $usuario = $form->usuario;
             $senha = $form->senha;
 
-            $consulta = Usuario::select('id', 'nome', 'email', 'usuario', 'senha')->where('usuario', $usuario)->get();
+            $consulta = Usuario::select('id', 'name', 'email', 'user', 'password')->where('usuario', $usuario)->get();
 
             // Confere se encontrou algum usuário
             if ($consulta->count())
