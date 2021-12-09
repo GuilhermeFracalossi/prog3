@@ -18,7 +18,7 @@ class CreateUsuariosTable extends Migration
             $table->boolean('admin')->default(0);
             $table->string('name', 255);
             $table->string('email', 255);
-            $table->string('user', 255);
+            $table->string('username', 255);
             $table->string('password', 255);
         });
     }

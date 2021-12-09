@@ -20,7 +20,7 @@
         </ul>
 
         <div class="text-end">
-          @if (session('usuario'))
+          @if (Auth::check())
             Olá, {{ session('usuario.nome') }}!
             <a href="{{ route('logout') }}" role="button" class="btn btn-outline-danger">Sair</a>
           @else

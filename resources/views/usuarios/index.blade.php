@@ -21,7 +21,7 @@
         </tr>
 
         @foreach ($usuarios as $usuario)
-        <tr>
+        <tr @if($usuario->admin) class="table-info" @endif>
             <td>{{ $usuario->id }}</td>
             <td>{{ $usuario->nome }}</td>
             <td>{{ $usuario->email }}</td>

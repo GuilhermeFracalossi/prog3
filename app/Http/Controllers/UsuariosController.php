@@ -4,30 +4,27 @@ namespace App\Http\Controllers;
 
 use App\Models\Usuario;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
-class UsuariosController extends Controller
-{
-    public function index()
-    {
+class UsuariosController extends Controller {
+    public function index() {
         $usuarios = Usuario::orderBy('id', 'asc')->get();
 
         return view('usuarios.index', ['usuarios' => $usuarios, 'pagina' => 'usuarios']);
     }
 
-    public function create()
-    {
+    public function create() {
         return view('usuarios.create', ['pagina' => 'usuarios']);
     }
 
-    public function insert(Request $form)
-    {
+    public function insert(Request $form) {
         $usuario = new Usuario();
 
-        $usuario->name = $form->nome;
+        $usuario->name = $form->name;
         $usuario->email = $form->email;
-        $usuario->user = $form->usuario;
-        $usuario->password = Hash::make($form->senha);
+        $usuario->username = $form->username;
+        $usuario->password = Hash::make($form->password);
 
         $usuario->save();
 
@@ -35,29 +32,26 @@ class UsuariosController extends Controller
     }
 
     // Ações de login
-    public function login(Request $form)
-    {
+    public function login(Request $form) {
         // Está enviando o formulário
-        if ($form->isMethod('POST'))
-        {
-            $usuario = $form->usuario;
-            $senha = $form->senha;
+        if ($form->isMethod('POST')) {
+                $credenciais = $form->validate([
+                    'username' => ['required'],
+                    'password' => ['required'],
+                ]);
 
-            $consulta = Usuario::select('id', 'name', 'email', 'user', 'password')->where('usuario', $usuario)->get();
+                // Tenta o login
+                if (Auth::attempt($credenciais)) {
+                    session()->regenerate();
+                    return redirect()->route('home');                   
 
-            // Confere se encontrou algum usuário
-            if ($consulta->count())
-            {
-                // Confere se a senha está correta
-                if (Hash::check($senha, $consulta[0]->senha))
-                {
-                    unset($consulta[0]->senha);
-
-                    session()->put('usuario', $consulta[0]);
-
-                    return redirect()->route('home');
+                } else {
+                    // Login deu errado (usuário ou senha inválidos)
+                    return redirect()->route('login')->with(
+                        'erro',
+                        'Usuário ou senha inválidos.'
+                    );
                 }
-            }
 
             // Login deu errado (usuário ou senha inválidos)
             return redirect()->route('login')->with('erro', 'Usuário ou senha inválidos.');
@@ -66,9 +60,8 @@ class UsuariosController extends Controller
         return view('usuarios.login');
     }
 
-    public function logout()
-    {
-        session()->forget('usuario');
+    public function logout() {
+        Auth::logout();
         return redirect()->route('home');
     }
 }

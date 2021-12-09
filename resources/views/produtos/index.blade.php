@@ -7,7 +7,9 @@
     <div class="col">
         <p>Sejam bem-vindos à página de produtos</p>
 
+        @if(Auth::user()->admin)
         <a class="btn btn-primary" href="{{route('produtos.inserir')}}" role="button">Cadastrar produto</a>
+        @endif
     </div>
 </div>
 
