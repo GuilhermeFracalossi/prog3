@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProdutosController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UsuariosController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Support\Facades\Route;
@@ -58,8 +59,9 @@ Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $requ
     return redirect()->route('home');
 })->middleware(['auth', 'signed'])->name('verification.verify');
 
-Route::get('/profile', [ProfileController::class, 'show'])->middleware('auth')->name('profile.show');
+Route::get('/profile', [UsuariosController::class, 'show'])->middleware('auth')->name('profile.show');
 
-Route::get('/profile/edit', [ProfileController::class, 'edit'])->middleware('auth')->name('profile.edit');
-Route::get('/profile/edit', [ProfileController::class], 'update' )->middleware('auth')->name('profile.update');
-Route::get('/profile/password', [ProfileController::class] )->middleware('auth')->name('profile.password');
+Route::get('/profile/edit', [UsuariosController::class, 'edit'])->middleware('auth')->name('profile.edit');
+Route::put('/profile/edit', [UsuariosController::class,'update' ] )->middleware('auth')->name('profile.update');
+Route::get('/profile/password', [UsuariosController::class, 'editPass'] )->middleware('auth')->name('profile.editPass');
+Route::put('/profile/password', [UsuariosController::class, 'updatePass'] )->middleware('auth')->name('profile.updatePass');

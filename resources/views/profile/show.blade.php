@@ -4,7 +4,7 @@
 @section('content')
 
 <a href="{{ route('profile.edit') }}">Alterar dados</a>
-<a href="{{ route('profile.changePass')}}">Alterar senha</a>
+<a href="{{ route('profile.editPass')}}">Alterar senha</a>
 
 <h1>Nome: {{ $user->name }}</h1>
 
