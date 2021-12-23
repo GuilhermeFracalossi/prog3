@@ -3,8 +3,8 @@
 
 @section('content')
 
-<a href="{{ route('profile.edit') }}">Alterar dados</a>
-<a href="{{ route('profile.editPass')}}">Alterar senha</a>
+<a href="{{ route('profile.edit') }}" class="btn btn-primary">Alterar dados</a>
+<a href="{{ route('profile.editPass')}}" class="btn btn-warning">Alterar senha</a>
 
 <h1>Nome: {{ $user->name }}</h1>
 
