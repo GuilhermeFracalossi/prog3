@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\MoviesController;
 use App\Http\Controllers\ProdutosController;
 use App\Http\Controllers\UsuariosController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
@@ -36,6 +37,15 @@ Route::get('/produtos/{prod}/apagar', [ProdutosController::class, 'remove'])->na
 
 Route::delete('/produtos/{prod}/apagar', [ProdutosController::class, 'delete'])->name('produtos.delete');
 
+
+//grupo de rotas para os filmes com os middlewares
+Route::group(['prefix' => "movies" , 'middleware' => ['auth', 'verified'] ], function () {
+    Route::get('/', [MoviesController::class, 'index'])->name('movies');
+    Route::get('/inserir', [MoviesController::class, 'create'])->name('movie.create');
+    Route::post('/inserir', [MoviesController::class, 'insert'])->name('movie.insert');
+    Route::get('/{mov}', [MoviesController::class, 'show'])->name('movie.show');
+});
+
 Route::get('usuarios', [UsuariosController::class, 'index'])->name('usuarios.index')->middleware('verified');
 
 Route::prefix('usuarios')->group(function () {
@@ -64,3 +74,5 @@ Route::get('/profile/edit', [UsuariosController::class, 'edit'])->middleware(['a
 Route::put('/profile/edit', [UsuariosController::class,'update' ] )->middleware(['auth', 'verified'])->name('profile.update');
 Route::get('/profile/password', [UsuariosController::class, 'editPass'] )->middleware(['auth', 'verified'])->name('profile.editPass');
 Route::put('/profile/password', [UsuariosController::class, 'updatePass'] )->middleware(['auth', 'verified'])->name('profile.updatePass');
+
+

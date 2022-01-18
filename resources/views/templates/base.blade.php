@@ -21,6 +21,9 @@
               class="nav-link px-2 @if ($pagina == 'produtos') text-secondary @else text-white @endif">Produtos</a></li>
           <li><a href="/usuarios"
               class="nav-link px-2 @if ($pagina == 'usuarios') text-secondary @else text-white @endif">Usuários</a></li>
+
+          <li><a href="/movies"
+              class="nav-link px-2 @if ($pagina == 'movies') text-secondary @else text-white @endif">Filmes</a></li>
         </ul>
 
         <div class="text-end">
